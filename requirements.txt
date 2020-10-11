@@ -1,2 +1,4 @@
 flask
+jinja2==2.11.1
+flask_monitoringdashboard
 pytest
