@@ -1,0 +1,4 @@
+.idea
+__pycache__
+.pytest
+__pytest_cache__
