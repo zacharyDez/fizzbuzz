@@ -1,15 +1,12 @@
+import time
+
+import statsd
 from flask import Flask, request
-import flask_monitoringdashboard as dashboard
 
 from fizzbuzz.fizzbuzz import main
 
-# useful link
-# https://medium.com/flask-monitoringdashboard-turtorial/monitor-your-flask-web-application-automatically-with-flask-monitoring-dashboard-d8990676ce83
-
+c = statsd.StatsClient('localhost', 8125)
 app = Flask(__name__)
-
-dashboard.config.init_from(file='./dashboard.cfg')
-dashboard.bind(app)
 
 
 @app.route('/')
@@ -19,7 +16,12 @@ def hello_world():
 
 @app.route('/fizzbuzz')
 def fizzbuzz():
+    start = time.time()
     num: int = int(request.args.get('num', None))
+
+    dur = (time.time() - start) * 1000
+    c.timing("tasktime", dur)
+    c.incr("taskcount")
 
     return main(num)
 
