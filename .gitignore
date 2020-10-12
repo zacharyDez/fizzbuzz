@@ -3,3 +3,4 @@ __pycache__
 .pytest
 __pytest_cache__
 venv
+flask_monitoringdashboard.db
